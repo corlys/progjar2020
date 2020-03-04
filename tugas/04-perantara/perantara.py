@@ -11,18 +11,18 @@ sock.bind( ("", 9999) )
 # - Param : berapa jumlah permintaan koneksi yang diterima
 sock.listen(100)
 
-list_conn = []
+list_koneksi = []
 
 # Definisikan fungsi yang akan dieksekusi pada setiap thread
 def handleThread(conn):
-    global list_conn
+    global list_koneksi
     try :
         while True :
             # To do : buat thred baru
             # Terima data dari client
             data = conn.recv(100)
             data = data.decode('ascii')
-            for c in list_conn :
+            for c in list_koneksi :
                 c.send(data.encode('ascii'))
     except (socket.error, KeyboardInterrupt) :
         conn.close()
@@ -33,7 +33,7 @@ try :
         # Panggil fungsi accept untuk menerima permintaan koneksi dari client
         # Return : objek koneksi ke client dan alamat client
         conn, client_addr = sock.accept()
-        list_conn.append(conn)
+        list_koneksi.append(conn)
         # Buat thread baru
         clientThread = threading.Thread(target=handleThread, args=(conn,))
         clientThread.start()

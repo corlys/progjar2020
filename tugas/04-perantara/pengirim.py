@@ -10,3 +10,4 @@ while True :
     # Kirim data ke server
     data = input("Masukkan string yang akan dikirim : ")
     sock.send(data.encode('ascii'))
+    # Terima kembalian dari server
