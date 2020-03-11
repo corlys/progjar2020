@@ -13,7 +13,7 @@ def handleThread(conn):
         while True :
             # To do : buat thred baru
             # Terima data dari client
-            data = conn.recv(100)
+            pass
     except (socket.error, KeyboardInterrupt) :
         conn.close()
         print("Client menutup koneksi")
