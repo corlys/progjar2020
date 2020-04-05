@@ -3,6 +3,7 @@ import struct
 def sendalldata(conn, message):
     # Hitung ukuran data
     datasize = len(message)
+    print('datasize saat di sendalldata : '+str(datasize))
     datasize = struct.pack("<I", datasize)
     #Tambahkan ukuran message berikut konten ke sebuah variable
     data = datasize + message
@@ -14,5 +15,6 @@ def recvalldata(conn):
     #Unpack untuk membaca ukuran message
     datasize = struct.unpack("<I", datasize)[0]
     #Baca konten message
+    print('datasize saat di recvalldata : '+str(datasize))
     message = conn.recv(datasize)
     return message

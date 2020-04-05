@@ -12,7 +12,7 @@ while True:
     conn, client_addr = sock.accept()
 
     data = recvalldata(conn)
-    
+    print('datasize saat di client : '+str(len(str(data))))
     file = open('filebaruu.jpg', 'wb')
     file.write(data)
     file.close()

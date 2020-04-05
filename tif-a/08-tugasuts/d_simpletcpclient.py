@@ -12,6 +12,7 @@ sock.connect(("127.0.0.1", 9999))
 filename = 'testgambar.jpg'
 read_file = open(filename, 'rb')
 data = read_file.read()
+print('datasize saat di client : '+str(len(str(data))))
 sendalldata(sock, data)
 
 

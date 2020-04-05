@@ -12,6 +12,7 @@ while True:
     conn, client_addr = sock.accept()
 
     data = recvalldata(conn)
-    data = "OK "+data
+    print('size di client : '+ str(len(data)))
+    #data = "OK "+data
     sendalldata(conn, data)
 

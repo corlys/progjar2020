@@ -3,6 +3,7 @@ import struct
 def sendalldata(conn, message):
     # Hitung ukuran data
     datasize = len(message)
+    print('datasize saat di sendalldata : '+str(datasize))
     datasize = struct.pack("<I", datasize)
     #kirimkan data
     message = message.encode('ascii')
@@ -18,4 +19,5 @@ def recvalldata(conn):
     #Baca konten message
     message = conn.recv(datasize)
     message = message.decode('ascii')
+    print('datasize saat di recvalldata : '+str(datasize))
     return message
