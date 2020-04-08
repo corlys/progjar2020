@@ -1,43 +1,45 @@
 # Import socket
 import socket
 import threading
+import os
 
 # Inisiasi socket TCP/IPv4
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind
-sock.bind( ("0.0.0.0", 9922) )
+sock.bind( ("0.0.0.0", 9998) )
 
 # Listen sebanyak jumlah backlog
 sock.listen(10)
 
+def getfilesize(filename):
+    return os.stat(filename).st_size
+
 # Fungsi yang akan dieksekusi pada setiap thread
 def handle_thread(conn):
-    try : 
-        #Baca header
+    try :
+        # Baca header
         headers = ""
         while True :
-            #print(fileopen.read())
-            #Baca setiap 4 byte
-            temp = conn.recv(4)
+            temp = conn.recv(100)
             temp = temp.decode('ascii')
             headers = headers + temp
-            if '\r\n\r\n' in headers:
-                headers.replace('\r\n\r\n', '')
-                break;
-        fileopen = open('testo.html', 'r')
-        #debug
+            if "\r\n\r\n" in headers :
+                headers = headers.replace("\r\n\r\n", "")
+                break
+        # Cetak header yang diterima
+        selectFile = open("index.html", 'r')
         print(headers)
-        #kembalikan response ke client
-        response = ('HTTP/1.1 200 OK\r\n'+
-                   'Content-Type: text/html\r\n'+
-                   'Content-Length: '+str(len(fileopen.read()))+'\r\n'
-                   'Connection: close\r\n'
-                   '\r\n'+
-                   fileopen.read())
-        print(response)
-        conn.send(response.encode('ascii'))
-        fileopen.close()
+        # Kembalikan respons ke client
+        reponse = ("HTTP/1.1 200 OK"
+                 "Contentent-Type: Text/html\r\n"+
+                 "Content-Length: 5\r\n"+
+                 "Connection: close\r\n"+
+                 "\r\n"+ 
+                 selectFile.read())
+        print(reponse)
+        conn.send(reponse.encode('ascii'))
+        selectFile.close()
     except (socket.error, KeyboardInterrupt):
         conn.close()
         print("Client menutup koneksi")
