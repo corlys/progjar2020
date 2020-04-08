@@ -25,19 +25,26 @@ def handle_thread(conn):
             if '\r\n\r\n' in headers:
                 headers.replace('\r\n\r\n', '')
                 break;
-        fileopen = open('testo.html', 'r')
         #debug
         print(headers)
-        #kembalikan response ke client
-        response = ('HTTP/1.1 200 OK\r\n'+
-                   'Content-Type: text/html\r\n'+
-                   'Content-Length: '+str(len(fileopen.read()))+'\r\n'
-                   'Connection: close\r\n'
-                   '\r\n'+
-                   fileopen.read())
-        print(response)
-        conn.send(response.encode('ascii'))
-        fileopen.close()
+
+        filename = headers.split('/')
+        requestedfile = filename[1].replace(" HTTP", "")
+        if requestedfile in headers :
+            file_data = open(str(requestedfile),"r")
+            raw_data = file_data.read()
+            file_length = str(len(raw_data))
+            #kembalikan response ke client
+            response = ('HTTP/1.1 200 OK\r\n'+
+                        'Content-Type: text/html\r\n'+
+                        'Content-Length: '+file_length+'\r\n'
+                        'Connection: close\r\n'
+                        '\r\n'+
+                        raw_data)
+            print(response)
+            conn.send(response.encode('ascii'))
+            file_data.close()
+        
     except (socket.error, KeyboardInterrupt):
         conn.close()
         print("Client menutup koneksi")

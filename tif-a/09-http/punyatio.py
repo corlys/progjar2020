@@ -31,12 +31,12 @@ def handle_thread(conn):
         selectFile = open("index.html", 'r')
         print(headers)
         # Kembalikan respons ke client
-        reponse = ("HTTP/1.1 200 OK"
-                 "Contentent-Type: Text/html\r\n"+
-                 "Content-Length: 5\r\n"+
-                 "Connection: close\r\n"+
-                 "\r\n"+ 
-                 selectFile.read())
+        reponse = ("HTTP/1.1 200 OK\r\n"
+                   "Content-Type: text/html\r\n"+
+                   "Content-Length: "+str(len(selectFile.read()))+"\r\n"+
+                   "Connection: close\r\n"+
+                   "\r\n"+ 
+                   selectFile.read())
         print(reponse)
         conn.send(reponse.encode('ascii'))
         selectFile.close()
