@@ -24,7 +24,7 @@ def handle_thread(conn):
             headers = headers + temp
             if '\r\n\r\n' in headers:
                 headers.replace('\r\n\r\n', '')
-                break;
+                break
         #debug
         print(headers)
 
