@@ -26,7 +26,7 @@ def handle_thread(conn):
             if '\r\n\r\n' in headers:
                 headers = headers.replace('\r\n\r\n', '')
                 splits = headers.split('Content-Length: ')
-                bodylen = bodylen+splits[1]
+                bodylen = bodylen+splits[1].replace('\r\n\r\n', '')
                 temp = conn.recv(int(bodylen))
                 temp = temp.decode('ascii')
                 body = body + temp
@@ -43,12 +43,16 @@ def handle_thread(conn):
         #           'Connection: close\r\n'
         #           '\r\n'+
         #           str(body))
+        suplement = ' pleasework\r\n\r\n'
+        suplength = len(suplement)
+        length = int(bodylen)+suplength
         response = ('HTTP/1.1 200 OK\r\n'+
                     'Content-Type: text/html\r\n'+
-                    'Content-Length: '+bodylen+'\r\n'
+                    'Content-Length: '+str(length)+'\r\n'
                     'Connection: close\r\n'
                     '\r\n'+
-                    body)           
+                    body+suplement)
+        print(response)           
         conn.send(response.encode('ascii'))
     except (socket.error, KeyboardInterrupt):
         conn.close()
