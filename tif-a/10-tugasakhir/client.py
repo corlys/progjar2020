@@ -40,8 +40,7 @@ class Client:
 
         print("Berhasil membuat koneksi ke server")
 
-        thread_receive = threading.Thread(
-            target=self.recv_data).start()
+        thread_receive = threading.Thread(target=self.recv_data).start()
         self.send_data()
 
     def recv_data(self):

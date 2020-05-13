@@ -22,16 +22,16 @@ class Server:
     def accept_conns(self):
         self.sock.listen(100)
 
-        print("Menggunakan IP   = "+self.ip)
-        print("Menggunakan port = "+str(self.port))
+        print("Menggunakan IP   = " + self.ip)
+        print("Menggunakan port = " + str(self.port))
 
         while True:
             conn, addr = self.sock.accept()
 
             self.koneksi.append(conn)
 
-            threading.Thread(target=self.handle_client,
-                             args=(conn, addr,)).start()
+            threading.Thread(target=self.handle_client, args=(conn, addr,)).start()
+            print("Client Masuk")
 
     def broadcast(self, socket, data):
         for client in self.koneksi:
@@ -47,8 +47,10 @@ class Server:
                 data = conn.recv(1024)
                 self.broadcast(conn, data)
             except socket.error:
-                print('client putus')
+                self.koneksi.remove(conn)
+                print("Client putus")
                 conn.close()
+                break
 
 
 server = Server()
